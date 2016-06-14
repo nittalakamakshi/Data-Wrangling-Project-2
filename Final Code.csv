@@ -1,0 +1,34 @@
+### Load titatnic dataset and convert it into a data frame
+
+titanic_original <- read.csv("D:/Data Analysis/Data Wrangling Projects/Project 2/titanic_original.csv")
+View(titanic_original)
+
+titanic_original_df <- data.frame(titanic_original)
+
+### Port of embarkation: replace missing values with S
+
+missing_embarked <- which(titanic_original_df$embarked == "")
+ 
+titanic_original_df$embarked <- replace(titanic_original_df$embarked, missing_embarked, "S")
+
+### Age: populating missing age values
+
+mean_age <- mean(titanic_original_df$age, na.rm = TRUE)
+
+missing_age <- which(is.na(titanic_original_df$age))
+
+titanic_original_df$age <- replace(titanic_original_df$age, missing_age, mean_age)
+
+### Lifeboat
+
+titanic_original_df$boat <- as.character(titanic_original_df$boat)
+
+missing_boat <- which(titanic_original_df$boat == "")
+
+titanic_original_df$boat <- replace(titanic_original_df$boat, missing_boat, "NA")
+
+### Adding a new column "has_cabin_number"
+
+titanic_original_df$has_cabin_number <- ifelse(titanic_original_df$cabin=="", 0, 1)
+
+
